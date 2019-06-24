@@ -1,0 +1,26 @@
+public class Solution {
+    public int solve(int[] a) {
+        int hash[]=new int[100003];int max=-1;
+        for(int i=0;i<a.length;i++)
+        {hash[a[i]]+=1;
+        if(max<a[i])
+        max=a[i];
+        }
+        for(int i=1;i<=max;++i)
+        hash[i]+=hash[i-1];
+        int j=0,count=0;
+        while(j<a.length){
+            int val=hash[a[j]]-1;
+            if(j==val)
+            {
+                j++;
+                continue;
+            }
+            int temp=a[j];
+            a[j]=a[val];
+            a[val]=temp;
+            count++;
+        }
+        return count;
+    }
+}

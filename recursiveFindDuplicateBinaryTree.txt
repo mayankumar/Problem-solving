@@ -1,0 +1,102 @@
+/**
+ * Definition for binary tree
+ * class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) {
+ *      val = x;
+ *      left=null;
+ *      right=null;
+ *     }
+ * }
+ */
+public class Solution {
+    static boolean isSameTree(TreeNode a, TreeNode b) {
+        if(a==null && b==null)
+        return true;
+        else if(a==null || b==null || a.val!=b.val)
+        return false;
+        boolean t=((isSameTree(a.left,b.left))&&(isSameTree(a.right,b.right)));
+        return t;
+    }
+    
+    static boolean check(TreeNode a,TreeNode b){
+        if(a==null || b==null)
+        return false;
+        else if(a.val==b.val){
+            if(a.left==null && b.left==null && a.right==null && b.right==null)
+            return false;
+            return isSameTree(a,b)||check(a,b.left)||check(a,b.right)||check(a.left,b)||check(a.right,b)||check(a.left,a.right)||check(b.left,b.right);
+        }
+        else{
+            return check(a,b.left)||check(a,b.right)||check(a.left,b)||check(a.right,b)||check(a.left,a.right)||check(b.left,b.right);
+        }
+    }
+    public int solve(TreeNode a) {
+        if(a==null || a.left==null || a.right==null)
+        return 0;
+        HashMap<TreeNode,TreeNode> hm=new HashMap<>();
+        boolean t=check(a.left,a.right,hm);
+        return t?1:0;
+    }
+}
+/*
+/**
+ * Definition for binary tree
+ * class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) {
+ *      val = x;
+ *      left=null;
+ *      right=null;
+ *     }
+ * }
+ */
+public class Solution {
+    static class Pair{
+        TreeNode a,b;
+        Pair(TreeNode x,TreeNode y){
+            a=x;b=y;
+        }
+    }
+    static boolean isSameTree(TreeNode a, TreeNode b) {
+        if(a==null && b==null)
+        return true;
+        else if(a==null || b==null || a.val!=b.val)
+        return false;
+        boolean t=((isSameTree(a.left,b.left))&&(isSameTree(a.right,b.right)));
+        return t;
+    }
+    
+    static boolean check(TreeNode a,TreeNode b,HashMap<Pair,Boolean> hm){
+        if(a==null || b==null)
+        return false;
+        else if(hm.containsKey(new Pair(a,b)))
+        return hm.get(new Pair(a,b));
+        else if(a.val==b.val){
+            if(a.left==null && b.left==null && a.right==null && b.right==null)
+            {hm.put(new Pair(a,b),false);return false;}
+            boolean t=isSameTree(a,b)||check(a,b.left,hm)||check(a,b.right,hm)||check(a.left,b,hm)||check(a.right,b,hm)||check(a.left,a.right,hm)||check(b.left,b.right,hm);
+            hm.put(new Pair(a,b),t);
+            return t;
+        }
+        else{
+            boolean t=check(a,b.left,hm)||check(a,b.right,hm)||check(a.left,b,hm)||check(a.right,b,hm)||check(a.left,a.right,hm)||check(b.left,b.right,hm);
+             hm.put(new Pair(a,b),t);
+            return t;
+        }
+    }
+    
+    public int solve(TreeNode a) {
+        if(a==null || a.left==null || a.right==null)
+        return 0;
+        HashMap<Pair,Boolean> hm=new HashMap<>();
+        boolean t=check(a.left,a.right,hm);
+        return t?1:0;
+    }
+}
+
+*/

@@ -1,0 +1,33 @@
+Node head2=new Node(head.val,null,null);
+        Node ans=head2;
+        Node curr=head;
+        curr=curr.next;
+        while(curr!=null){
+            head2.next=new Node(curr.val,null,null);
+            head2=head2.next;
+            curr=curr.next;
+        }
+        Node next=null,point=ans;
+        curr=head;
+        while(curr!=null){
+            next=curr.next;
+            point.random=curr;
+            curr.next=point;
+            curr=next;
+            point=point.next;
+        }
+        point=ans;
+        curr=head;
+        while(point!=null){
+            if(curr.random!=null)
+                point.random=curr.random.next;
+            else
+                point.random=curr.random;
+            if(point.next!=null)
+                curr.next=point.next.random;
+            else
+                curr.next=null;
+            curr=curr.next;
+            point=point.next;
+        }
+        return ans;

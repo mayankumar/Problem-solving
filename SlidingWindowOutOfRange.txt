@@ -1,0 +1,56 @@
+public class Solution {
+    static long maxWindow(int a[],int k){
+        long sum=0;
+        int i=0;
+        Deque<Integer> q=new LinkedList<Integer>();
+        for(i=0;i<k;++i){
+            while(!q.isEmpty() && a[i]>a[q.peekLast()])
+            q.pollLast();
+            
+            q.addLast(i);
+        }
+        sum+=a[q.peekFirst()];
+        //System.out.println(a[q.peekFirst()]);
+        while(i<a.length){
+            while(!q.isEmpty() && a[i]>a[q.peekLast()])
+            q.pollLast();
+            q.addLast(i);
+            while(i-q.peekFirst()>=k)
+            q.pollFirst();
+            //System.out.println(a[q.peekFirst()]);
+            sum+=a[q.peekFirst()];
+            ++i;
+        }
+        return sum;
+    }
+    static long minWindow(int a[],int k){
+        long sum=0;
+        int i=0;
+        //System.out.println("MINIMUM");
+        Deque<Integer> q=new LinkedList<Integer>();
+        for(i=0;i<k;++i){
+            while(!q.isEmpty() && a[i]<a[q.peekLast()])
+            q.pollLast();
+            
+            q.addLast(i);
+        }
+        sum+=a[q.peekFirst()];
+        //System.out.println(a[q.peekFirst()]);
+        while(i<a.length){
+            while(!q.isEmpty() && a[i]<a[q.peekLast()])
+            q.pollLast();
+            q.addLast(i);
+            while(i-q.peekFirst()>=k)
+            q.pollFirst();
+           // System.out.println(a[q.peekFirst()]);
+            sum+=a[q.peekFirst()];
+            ++i;
+        }
+        return sum;
+    }
+    public int solve(int[] a, int k) {
+        long sum=maxWindow(a,k)+minWindow(a,k);
+        sum=((sum<=1000000007)||(sum>=-1000000007))?((sum % 1000000007) + 1000000007)%(1000000007):sum;
+        return (int)sum;
+    }
+}

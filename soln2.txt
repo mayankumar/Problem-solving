@@ -1,0 +1,44 @@
+#include<iostream>
+using namespace std;
+#include<string>
+#include<stdlib.h>
+
+void subsequence(string s,char t[],int n,int k)
+{
+	int last=0,newlast=0,size=0,count=0;
+	for(char ch='z';ch>='a';ch--)
+	{
+		count=0;
+		for(int i=last;i<n;i++)
+		{
+			if(s[i]==ch)
+			count++;
+		}
+		if(count>=k)
+		{
+			for(int i=last;i<n;i++)
+			{
+				if(s[i]==ch)
+				{
+					t[size++]=s[i];
+					newlast=i;
+				}
+			}
+			last=newlast;
+		}
+	}
+	t[size]='\0';
+}
+
+int main()
+{
+	string s;
+	cin>>s;
+	int k;
+	cin>>k;
+	int n=s.length();
+	char t[n];
+	subsequence(s,t,n,k);
+	cout<<t;
+	return 0;
+}
